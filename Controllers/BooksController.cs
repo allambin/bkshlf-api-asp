@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 using BKSHLF.Data;
 using BKSHLF.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,12 @@ namespace BKSHLF.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBookRepository _repository;
+        private readonly IMapper _mapper;
 
-        public BooksController(IBookRepository repository)
+        public BooksController(IBookRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -22,7 +25,7 @@ namespace BKSHLF.Controllers
         {
             var books = _repository.GetAllBooks();
 
-            return Ok(books);
+            return Ok(_mapper.Map<IEnumerable<Dto.Book>>(books));
         }
 
         [HttpGet("{id}")]
@@ -34,7 +37,7 @@ namespace BKSHLF.Controllers
                 return NotFound();
             }
 
-            return Ok(book);
+            return Ok(_mapper.Map<Dto.Book>(book));
         }
     }
 }
