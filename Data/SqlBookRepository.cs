@@ -42,6 +42,16 @@ namespace BKSHLF.Data
             _context.Books.Add(book);
         }
 
+        void IBookRepository.DeleteBook(Book book)
+        {
+            if (book == null)
+            {
+                throw new ArgumentNullException(nameof(book));
+            }
+
+            _context.Books.Remove(book);
+        }
+
         bool IBookRepository.SaveChanges()
         {
             return _context.SaveChanges() >= 0;

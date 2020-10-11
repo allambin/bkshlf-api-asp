@@ -99,5 +99,23 @@ namespace BKSHLF.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteBook(Guid id)
+        {
+            var book = _repository.GetBook(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            _repository.DeleteBook(book);
+            if(_repository.SaveChanges() == false)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError); 
+            }
+
+            return NoContent();
+        }
     }
 }

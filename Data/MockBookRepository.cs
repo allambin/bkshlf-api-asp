@@ -30,6 +30,11 @@ namespace BKSHLF.Data
             throw new NotImplementedException();
         }
 
+        void IBookRepository.DeleteBook(Book book)
+        {
+            throw new NotImplementedException();
+        }
+
         bool IBookRepository.SaveChanges()
         {
             throw new NotImplementedException();
