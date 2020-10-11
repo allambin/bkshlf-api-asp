@@ -7,7 +7,9 @@ namespace BKSHLF.Profiles
     {
         public BooksProfile()
         {
+            // source -> target
             CreateMap<Book, Dto.Book>();
+            CreateMap<Dto.BookRequest, Book>();
         }
     }
 }

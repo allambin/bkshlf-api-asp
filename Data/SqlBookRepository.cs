@@ -23,5 +23,28 @@ namespace BKSHLF.Data
         {
             return _context.Books.FirstOrDefault(b => b.Id == id);
         }
+
+        public void UpdateBook(Book book)
+        {
+            // No need to do anything, as entity framework will update the object through SaveChanges
+        }
+
+        void IBookRepository.CreateBook(Book book)
+        {
+            if (book == null)
+            {
+                throw new ArgumentNullException(nameof(book));
+            }
+            
+            book.CreatedAt = DateTime.Now;
+            book.UpdatedAt = DateTime.Now;
+
+            _context.Books.Add(book);
+        }
+
+        bool IBookRepository.SaveChanges()
+        {
+            return _context.SaveChanges() >= 0;
+        }
     }
 }

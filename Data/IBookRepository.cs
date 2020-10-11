@@ -6,7 +6,11 @@ namespace BKSHLF.Data
 {
     public interface IBookRepository
     {
+        bool SaveChanges();
+
         IEnumerable<Book> GetAllBooks();
         Book GetBook(Guid id);
+        void CreateBook(Book book);
+        void UpdateBook(Book book);
     }
 }

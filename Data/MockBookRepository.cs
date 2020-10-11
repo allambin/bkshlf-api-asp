@@ -24,5 +24,20 @@ namespace BKSHLF.Data
                 Title = "Jurassic Park"
             };
         }
+
+        void IBookRepository.CreateBook(Book book)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IBookRepository.SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBookRepository.UpdateBook(Book book)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
