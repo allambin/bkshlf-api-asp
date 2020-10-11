@@ -4,6 +4,7 @@ using AutoMapper;
 using BKSHLF.Data;
 using BKSHLF.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BKSHLF.Controllers
@@ -64,6 +65,32 @@ namespace BKSHLF.Controllers
             }
 
             _mapper.Map(bookRequest, book);
+            _repository.UpdateBook(book);
+            if(_repository.SaveChanges() == false)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError); 
+            }
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public ActionResult PartialUpdateBook(Guid id, JsonPatchDocument<Dto.BookPatchRequest> patchDocument)
+        {
+            var book = _repository.GetBook(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            var bookToPatch = _mapper.Map<Dto.BookPatchRequest>(book);
+            patchDocument.ApplyTo(bookToPatch, ModelState);
+            if (!TryValidateModel(bookToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(bookToPatch, book);
             _repository.UpdateBook(book);
             if(_repository.SaveChanges() == false)
             {

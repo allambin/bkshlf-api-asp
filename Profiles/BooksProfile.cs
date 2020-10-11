@@ -10,6 +10,8 @@ namespace BKSHLF.Profiles
             // source -> target
             CreateMap<Book, Dto.Book>();
             CreateMap<Dto.BookRequest, Book>();
+            CreateMap<Book, Dto.BookPatchRequest>();
+            CreateMap<Dto.BookPatchRequest, Book>();
         }
     }
 }
