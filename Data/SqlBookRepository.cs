@@ -5,13 +5,10 @@ using BKSHLF.Models;
 
 namespace BKSHLF.Data
 {
-    public class SqlBookRepository : IBookRepository
+    public class SqlBookRepository : SqlBaseRepository, IBookRepository
     {
-        private readonly BkshlfContext _context;
-
-        public SqlBookRepository(BkshlfContext context)
+        public SqlBookRepository(BkshlfContext context) : base(context)
         {
-            _context = context;
         }
 
         public IEnumerable<Book> GetAllBooks()
@@ -26,10 +23,10 @@ namespace BKSHLF.Data
 
         public void UpdateBook(Book book)
         {
-            // No need to do anything, as entity framework will update the object through SaveChanges
+            book.UpdatedAt = DateTime.Now;
         }
 
-        void IBookRepository.CreateBook(Book book)
+        public void CreateBook(Book book)
         {
             if (book == null)
             {
@@ -42,7 +39,7 @@ namespace BKSHLF.Data
             _context.Books.Add(book);
         }
 
-        void IBookRepository.DeleteBook(Book book)
+        public void DeleteBook(Book book)
         {
             if (book == null)
             {
@@ -50,11 +47,6 @@ namespace BKSHLF.Data
             }
 
             _context.Books.Remove(book);
-        }
-
-        bool IBookRepository.SaveChanges()
-        {
-            return _context.SaveChanges() >= 0;
         }
     }
 }

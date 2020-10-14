@@ -38,6 +38,7 @@ namespace BKSHLF_API
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IBookRepository, SqlBookRepository>();
+            services.AddScoped<IAuthorRepository, SqlAuthorRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
