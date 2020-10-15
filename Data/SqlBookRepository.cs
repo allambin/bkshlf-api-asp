@@ -39,13 +39,31 @@ namespace BKSHLF.Data
             _context.Books.Add(book);
         }
 
+        public void CreateBook(Book book, Author author)
+        {
+            CreateBook(book);
+            
+            if (author == null)
+            {
+                throw new ArgumentNullException(nameof(author));
+            }
+
+            var ba = new BookAuthor {
+                Author = author,
+                Book = book
+            };
+
+            _context.BookAuthors.Add(ba);
+        }
+
         public void DeleteBook(Book book)
         {
             if (book == null)
             {
                 throw new ArgumentNullException(nameof(book));
             }
-
+ 
+            _context.BookAuthors.RemoveRange(_context.BookAuthors.Where(ba => ba.BookId == book.Id));
             _context.Books.Remove(book);
         }
     }

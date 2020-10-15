@@ -14,11 +14,13 @@ namespace BKSHLF.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBookRepository _repository;
+        private readonly IAuthorRepository _authorRepository;
         private readonly IMapper _mapper;
 
-        public BooksController(IBookRepository repository, IMapper mapper)
+        public BooksController(IBookRepository repository, IAuthorRepository authorRepository, IMapper mapper)
         {
             _repository = repository;
+            _authorRepository = authorRepository;
             _mapper = mapper;
         }
 
@@ -46,7 +48,18 @@ namespace BKSHLF.Controllers
         public ActionResult<Dto.Book> CreateBook(Dto.BookRequest bookRequest)
         {
             var book = _mapper.Map<Book>(bookRequest);
-            _repository.CreateBook(book);
+
+            if (bookRequest.AuthorId != null) 
+            {
+                int authorId = (int)bookRequest.AuthorId;
+                var author = _authorRepository.GetAuthor(authorId);
+                _repository.CreateBook(book, author);
+            }
+            else
+            {
+                _repository.CreateBook(book);
+            }
+
             if(_repository.SaveChanges() == false)
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError); 

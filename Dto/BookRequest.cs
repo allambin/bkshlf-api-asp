@@ -7,5 +7,6 @@ namespace BKSHLF.Dto
     {
         [Required]
         public string Title { get; set; }
+        public int? AuthorId { get; set; }
     }
 }

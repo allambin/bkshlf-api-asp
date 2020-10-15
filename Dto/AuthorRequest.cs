@@ -9,5 +9,6 @@ namespace BKSHLF.Dto
         public string FirstName { get; set; } 
         [Required]
         public string LastName { get; set; }
+        public Guid BookId { get; set; }
     }
 }
