@@ -8,7 +8,8 @@ namespace BKSHLF.Profiles
         public AuthorsProfile()
         {
             // source -> target
-            CreateMap<Author, Dto.Author>();
+            CreateMap<Author, Dto.Author>()
+                .ForMember(x => x.BooksCount, o => o.MapFrom(x => x.BooksAuthors.Count));
             CreateMap<Dto.AuthorRequest, Author>();
         }
     }

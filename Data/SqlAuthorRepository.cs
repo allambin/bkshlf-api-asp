@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BKSHLF.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BKSHLF.Data
 {
@@ -54,7 +55,7 @@ namespace BKSHLF.Data
 
         public IEnumerable<Author> GetAllAuthors()
         {
-            return _context.Authors.ToList();
+            return _context.Authors.Include("BooksAuthors").ToList();
         }
 
         public Author GetAuthor(int id)
