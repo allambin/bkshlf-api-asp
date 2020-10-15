@@ -98,5 +98,13 @@ namespace BKSHLF.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("{id}/books")]
+        public ActionResult<IEnumerable<Author>> GetAllAuthorBooks(int id)
+        {
+            var author = _repository.GetAuthorWithBooks(id);
+
+            return Ok(_mapper.Map<Dto.AuthorWithBooks>(author));
+        }
     }
 }

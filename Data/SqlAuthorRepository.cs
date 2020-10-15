@@ -63,6 +63,11 @@ namespace BKSHLF.Data
             return _context.Authors.FirstOrDefault(a => a.Id == id);
         }
 
+        public Author GetAuthorWithBooks(int id)
+        {
+            return _context.Authors.Include("BooksAuthors").Include("BooksAuthors.Book").FirstOrDefault(a => a.Id == id);
+        }
+
         public void UpdateAuthor(Author author)
         {
             author.UpdatedAt = DateTime.Now;
