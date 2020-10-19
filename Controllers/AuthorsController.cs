@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using AutoMapper;
 using BKSHLF.Data;
 using BKSHLF.Models;
@@ -105,6 +107,60 @@ namespace BKSHLF.Controllers
             var author = _repository.GetAuthorWithBooks(id);
 
             return Ok(_mapper.Map<Dto.AuthorWithBooks>(author));
+        }
+
+        [HttpDelete("{id}/books/{bookId}")]
+        public ActionResult DeleteBookFromAuthor(int id, Guid bookId)
+        {
+            var author = _repository.GetAuthor(id);
+            if (author == null)
+            {
+                return NotFound();
+            }
+            var book = _bookRepository.GetBook(bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            _repository.DeleteBookAuthor(author, book);
+            if(_repository.SaveChanges() == false)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError); 
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}/books/{bookId}")]
+        public ActionResult AddBookToAuthor(int id, Guid bookId)
+        {
+            var author = _repository.GetAuthor(id);
+            if (author == null)
+            {
+                return NotFound();
+            }
+            var book = _bookRepository.GetBook(bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            _repository.CreateBookAuthor(author, book);
+            try
+            {
+                if(_repository.SaveChanges() == false)
+                {
+                    return new StatusCodeResult(StatusCodes.Status500InternalServerError); 
+                }
+            }
+            catch
+            {
+                return BadRequest("This book is already linked to this author.");
+            }
+            
+
+            return NoContent();
         }
     }
 }

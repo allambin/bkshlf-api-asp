@@ -15,5 +15,7 @@ namespace BKSHLF.Data
         void CreateAuthor(Author author, Book book);
         void UpdateAuthor(Author author);
         void DeleteAuthor(Author author);
+        void CreateBookAuthor(Author author, Book book);
+        void DeleteBookAuthor(Author author, Book book);
     }
 }

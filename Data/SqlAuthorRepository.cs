@@ -72,5 +72,21 @@ namespace BKSHLF.Data
         {
             author.UpdatedAt = DateTime.Now;
         }
+
+        public void DeleteBookAuthor(Author author, Book book)
+        {
+            _context.BookAuthors
+                .RemoveRange(_context.BookAuthors.Where(ba => ba.BookId == book.Id).Where(ba => ba.AuthorId == author.Id));
+        }
+
+        public void CreateBookAuthor(Author author, Book book)
+        {
+            var ba = new BookAuthor {
+                Author = author,
+                Book = book
+            };
+
+            _context.BookAuthors.Add(ba);
+        }
     }
 }
