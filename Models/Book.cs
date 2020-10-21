@@ -11,8 +11,8 @@ namespace BKSHLF.Models
         public Guid Id { get; set; }
         [Required]
         public string Title { get; set; }
-        //public ICollection<Author> Authors { get; set; }
         public ICollection<BookAuthor> BooksAuthors { get; set; }
+        public ICollection<Edition> Editions { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set ; }
     }
