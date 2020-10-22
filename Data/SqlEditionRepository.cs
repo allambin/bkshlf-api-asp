@@ -37,5 +37,23 @@ namespace BKSHLF.Data
 
             _context.Editions.Add(edition);
         }
+
+        public void DeleteEdition(Edition edition)
+        {
+            if (edition == null)
+            {
+                throw new ArgumentNullException(nameof(edition));
+            }
+ 
+            _context.Editions.Remove(edition);
+        }
+
+        public void UpdateEdition(Edition edition, Book book, Publisher publisher = null)
+        {
+            edition.UpdatedAt = DateTime.Now;
+
+            edition.Book = book;
+            edition.Publisher = publisher;
+        }
     }
 }

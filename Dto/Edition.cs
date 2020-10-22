@@ -12,7 +12,7 @@ namespace BKSHLF.Dto
         public string Language { get; set; }
         public Models.Edition.FormatType Format { get; set; }
         public Book Book { get; set; }
-        public Publisher Publisher { get; set; }
+        public string PublisherName { get; set; }
         public DateTime PublishedAt { get; set; }
     }
 }

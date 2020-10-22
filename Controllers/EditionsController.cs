@@ -58,6 +58,10 @@ namespace BKSHLF.Controllers
                         Name = request.PublisherName
                     };
                     _publisherRepository.CreatePublisher(newPublisher);
+                    if(_publisherRepository.SaveChanges() == false)
+                    {
+                        return new StatusCodeResult(StatusCodes.Status500InternalServerError); 
+                    }
                     publisher = _publisherRepository.GetPublisher(publisherName);
                 }
             }
@@ -70,6 +74,70 @@ namespace BKSHLF.Controllers
             }
 
             return CreatedAtAction("GetEdition", new {Id = edition.Id}, _mapper.Map<Dto.Edition>(edition));
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateEdition(int id, Dto.EditionRequest request)
+        {
+            var edition = _repository.GetEdition(id);
+            if (edition == null)
+            {
+                return NotFound();
+            }
+            
+            var book = _bookRepository.GetBook(request.BookId);
+            Publisher publisher = null;
+
+            if (book == null)
+            {
+               return BadRequest("Book not found");
+            }
+
+            if (request.PublisherName != null) 
+            {
+                string publisherName = request.PublisherName;
+                publisher = _publisherRepository.GetPublisher(publisherName);
+                if (publisher == null)
+                {
+                    Publisher newPublisher = new Publisher
+                    {
+                        Name = request.PublisherName
+                    };
+                    _publisherRepository.CreatePublisher(newPublisher);
+                    if(_publisherRepository.SaveChanges() == false)
+                    {
+                        return new StatusCodeResult(StatusCodes.Status500InternalServerError); 
+                    }
+                    publisher = _publisherRepository.GetPublisher(publisherName);
+                }
+            }
+
+            _mapper.Map(request, edition);
+            _repository.UpdateEdition(edition, book, publisher);
+            if(_repository.SaveChanges() == false)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError); 
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteEdition(int id)
+        {
+            var edition = _repository.GetEdition(id);
+            if (edition == null)
+            {
+                return NotFound();
+            }
+
+            _repository.DeleteEdition(edition);
+            if(_repository.SaveChanges() == false)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError); 
+            }
+
+            return NoContent();
         }
     }
 }
