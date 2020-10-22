@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BKSHLF.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BKSHLF.Data
 {
@@ -13,7 +14,7 @@ namespace BKSHLF.Data
 
         public Edition GetEdition(int id)
         {
-            return _context.Editions.FirstOrDefault(p => p.Id == id); 
+            return _context.Editions.Include("Book").Include("Publisher").FirstOrDefault(p => p.Id == id); 
         }
 
         public void CreateEdition(Edition edition, Book book, Publisher publisher = null)
