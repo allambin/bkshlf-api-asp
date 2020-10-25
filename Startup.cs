@@ -41,6 +41,7 @@ namespace BKSHLF_API
             services.AddScoped<IAuthorRepository, SqlAuthorRepository>();
             services.AddScoped<IPublisherRepository, SqlPublisherRepository>();
             services.AddScoped<IEditionRepository, SqlEditionRepository>();
+            services.AddScoped<ISerieRepository, SqlSerieRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
