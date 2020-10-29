@@ -17,6 +17,7 @@ namespace BKSHLF.Data
         public DbSet<BookAuthor> BookAuthors { get; set; }
         public DbSet<Serie> Series { get; set; }
         public DbSet<BookSerie> BooksSeries { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
